@@ -44,6 +44,14 @@ namespace TutorialRestApi
                 .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
                 = new DefaultContractResolver());
 
+
+            services.AddEndpointsApiExplorer(); // Это требуется для ASP.NET Core 6.0 и выше
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ReatApi Tutorial", Version = "v1" });
+                //c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+            });
+
             services.AddControllers();
         }
 
@@ -57,6 +65,9 @@ namespace TutorialRestApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                app.UseSwagger();
+                app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "ReatApi Tutorial"); });
             }
 
             app.UseRouting();
