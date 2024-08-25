@@ -149,27 +149,5 @@ namespace TutorialRestApi.Controllers
                 return new JsonResult("annonyms.png");
             }
         }
-
-        [Route("GetAllDepartmentNames")]
-        public JsonResult GetAllDepartmentNames()
-        {
-            string query = @"select DepartmentName from dbo.Department";
-            DataTable _table = new DataTable();
-            string _source = _configuration.GetConnectionString("Default");
-            SqlDataReader _reader;
-            using (SqlConnection _myCon = new SqlConnection(_source))
-            {
-                _myCon.Open();
-                using (SqlCommand _command = new SqlCommand(query, _myCon))
-                {
-                    _reader = _command.ExecuteReader();
-                    _table.Load(_reader);
-
-                    _reader.Close();
-                    _myCon.Close();
-                }
-            }
-            return new JsonResult(_table);
-        }
     }
 }
